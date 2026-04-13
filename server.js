@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// Middleware
+
 app.use(express.json());
 
-// In-memory data store
+
 let books = [
   { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
   { id: 2, title: 'To Kill a Mockingbird', author: 'Harper Lee' },
@@ -14,9 +14,7 @@ let books = [
 
 let nextId = 4;
 
-// ─── Routes ───────────────────────────────────────────────────────────────────
 
-// GET /books — Return all books
 app.get('/books', (req, res) => {
   res.status(200).json({
     success: true,
@@ -25,7 +23,7 @@ app.get('/books', (req, res) => {
   });
 });
 
-// GET /books/:id — Return a single book by ID
+
 app.get('/books/:id', (req, res) => {
   const book = books.find((b) => b.id === parseInt(req.params.id));
 
@@ -36,7 +34,7 @@ app.get('/books/:id', (req, res) => {
   res.status(200).json({ success: true, data: book });
 });
 
-// POST /books — Add a new book
+
 app.post('/books', (req, res) => {
   const { title, author } = req.body;
 
@@ -50,7 +48,7 @@ app.post('/books', (req, res) => {
   res.status(201).json({ success: true, message: 'Book created successfully', data: newBook });
 });
 
-// PUT /books/:id — Update a book by ID
+
 app.put('/books/:id', (req, res) => {
   const index = books.findIndex((b) => b.id === parseInt(req.params.id));
 
@@ -70,7 +68,7 @@ app.put('/books/:id', (req, res) => {
   res.status(200).json({ success: true, message: 'Book updated successfully', data: books[index] });
 });
 
-// DELETE /books/:id — Remove a book by ID
+
 app.delete('/books/:id', (req, res) => {
   const index = books.findIndex((b) => b.id === parseInt(req.params.id));
 
@@ -83,12 +81,11 @@ app.delete('/books/:id', (req, res) => {
   res.status(200).json({ success: true, message: 'Book deleted successfully', data: deleted });
 });
 
-// 404 handler for unknown routes
 app.use((req, res) => {
   res.status(404).json({ success: false, message: `Route ${req.method} ${req.path} not found` });
 });
 
-// Start server
+
 app.listen(PORT, () => {
   console.log(`📚 Books API running at http://localhost:${PORT}`);
   console.log('\nAvailable endpoints:');
